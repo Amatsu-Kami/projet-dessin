@@ -313,12 +313,23 @@ public class VuePrincipale implements Observeur {
         return couleurInterieur;
     }
 
+    public void ajouterAuComboBox(String nom) {
+        this.comboBox.addItem(nom);
+    }
+
+    public void supprimerDuComboBox(int index){
+        this.comboBox.removeItemAt(index);
+    }
+
+    public int getFormeIndex() {
+        return comboBox.getSelectedIndex();
+    }
 
     public void messageErreur(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
 
-    public void addFormeEcouteur(ActionListener formeEcouteur, ActionListener selectionnerFormeEcouteur, ActionListener suppressionEcouteur, ActionListener supprimerEcouteur) {
+    public void addFormeEcouteur(ActionListener formeEcouteur, ActionListener selectionnerFormeEcouteur, ActionListener suppressionEcouteur, ActionListener supprimerEcouteur, ActionListener bordureEcouteur) {
         okButton.addActionListener(formeEcouteur);
         carreBouton.addActionListener(selectionnerFormeEcouteur);
         cercleBouton.addActionListener(selectionnerFormeEcouteur);
@@ -328,12 +339,17 @@ public class VuePrincipale implements Observeur {
         triangleBouton.addActionListener(selectionnerFormeEcouteur);
         suppressionBouton.addActionListener(suppressionEcouteur);
         supprimerBouton.addActionListener(supprimerEcouteur);
+        bordureSeulement.addActionListener(bordureEcouteur);
+        interieurSeulement.addActionListener(bordureEcouteur);
+        interieurBordure.addActionListener(bordureEcouteur);
+
     }
 
     @Override
     public void actualisation(Observable observable) {
         FormeControleur formeControleur = (FormeControleur) observable;
         FormeEnum formeEnum = formeControleur.getFormeChoisie();
+        BordureEnum bordureEnum = formeControleur.getBordureChoisie();
         if (formeControleur.isSuppression()) {
             panel2.setVisible(true);
             bordureSeulement.setVisible(false);
@@ -353,15 +369,16 @@ public class VuePrincipale implements Observeur {
             okButton.setVisible(false);
             comboBox.setVisible(true);
             supprimerBouton.setVisible(true);
-        } else {
+        } else if (formeControleur.isCreation()){
             switch (formeEnum) {
                 case CARRE -> {
                     panel2.setVisible(true);
+                    bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
                     interieurBordure.setVisible(true);
                     couleurBordureBouton.setVisible(true);
-                    couleurInterieurBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(false);
                     panelX1.setVisible(true);
                     panelY1.setVisible(true);
                     panelX2.setVisible(false);
@@ -377,11 +394,12 @@ public class VuePrincipale implements Observeur {
                 }
                 case CERCLE -> {
                     panel2.setVisible(true);
+                    bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
                     interieurBordure.setVisible(true);
                     couleurBordureBouton.setVisible(true);
-                    couleurInterieurBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(false);
                     panelX1.setVisible(true);
                     panelY1.setVisible(true);
                     panelX2.setVisible(false);
@@ -397,11 +415,12 @@ public class VuePrincipale implements Observeur {
                 }
                 case ELLIPSE, RECTANGLE -> {
                     panel2.setVisible(true);
+                    bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
                     interieurBordure.setVisible(true);
                     couleurBordureBouton.setVisible(true);
-                    couleurInterieurBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(false);
                     panelX1.setVisible(true);
                     panelY1.setVisible(true);
                     panelX2.setVisible(false);
@@ -437,11 +456,12 @@ public class VuePrincipale implements Observeur {
                 }
                 case TRIANGLE -> {
                     panel2.setVisible(true);
+                    bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
                     interieurBordure.setVisible(true);
                     couleurBordureBouton.setVisible(true);
-                    couleurInterieurBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(false);
                     panelX1.setVisible(true);
                     panelY1.setVisible(true);
                     panelX2.setVisible(true);
@@ -454,6 +474,21 @@ public class VuePrincipale implements Observeur {
                     okButton.setVisible(true);
                     comboBox.setVisible(false);
                     supprimerBouton.setVisible(false);
+                }
+            }
+        } else {
+            switch (bordureEnum){
+                case BORDURE -> {
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(false);
+                }
+                case INTERIEUR -> {
+                    couleurBordureBouton.setVisible(false);
+                    couleurInterieurBouton.setVisible(true);
+                }
+                case BORDURE_INTERIEUR -> {
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(true);
                 }
             }
         }

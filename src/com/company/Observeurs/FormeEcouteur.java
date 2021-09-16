@@ -4,7 +4,6 @@ import com.company.Controleurs.FormeControleur;
 import com.company.Modeles.DetailsForme;
 import com.company.Vues.VuePrincipale;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
