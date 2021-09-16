@@ -1,189 +1,461 @@
 package com.company.Vues;
 
+import com.company.Controleurs.FormeControleur;
+import com.company.Enums.BordureEnum;
+import com.company.Enums.FormeEnum;
+import com.company.Observeurs.Observable;
+import com.company.Observeurs.Observeur;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VuePrincipale extends JFrame implements ActionListener {
+public class VuePrincipale implements Observeur {
 
-    JButton couleurBordure;
-    JButton couleurInterieur;
+    JButton couleurBordureBouton;
+    JButton couleurInterieurBouton;
+    JTextField textFieldX1;
+    JTextField textFieldY1;
+    JTextField textFieldX2;
+    JTextField textFieldY2;
+    JTextField textFieldX3;
+    JTextField textFieldY3;
+    JTextField textFieldLargeur;
+    JTextField textFieldHauteur;
+    JTextField textFieldRayon;
+    JButton okButton;
+    Color couleurBordure;
+    Color couleurInterieur;
+    JFrame frame;
+    JButton carreBouton;
+    JButton cercleBouton;
+    JButton ellipseBouton;
+    JButton ligneBouton;
+    JButton rectangleBouton;
+    JButton triangleBouton;
+    JRadioButton bordureSeulement;
+    JRadioButton interieurSeulement;
+    JRadioButton interieurBordure;
+    JPanel panelX1;
+    JPanel panelY1;
+    JPanel panelX2;
+    JPanel panelY2;
+    JPanel panelX3;
+    JPanel panelY3;
+    JPanel panelLargeur;
+    JPanel panelHauteur;
+    JPanel panelRayon;
+    JPanel panel2;
+    VueCanvas canvas;
+    JButton suppressionBouton;
+    JButton supprimerBouton;
+    JComboBox comboBox;
 
-     public void afficher(){
-         JFrame frame = new JFrame();
-         frame.setTitle("Fait moi un dessin");
-         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         frame.setSize(640,500);
-         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-         frame.setLayout(new BorderLayout());
+    public void afficher() {
+        frame = new JFrame();
+        frame.setTitle("Fait moi un dessin");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(640, 500);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setLayout(new BorderLayout());
 
-         JPanel panel1 = new JPanel();
-         panel1.setPreferredSize(new Dimension(1980,37));
-         panel1.setBackground(Color.lightGray);
-         panel1.setLayout(new FlowLayout());
+        JPanel panel1 = new JPanel();
+        panel1.setPreferredSize(new Dimension(1980, 37));
+        panel1.setBackground(Color.lightGray);
+        panel1.setLayout(new FlowLayout());
 
-         panel1.add(new JButton("Carré"));
-         panel1.add(new JButton("Cercle"));
-         panel1.add(new JButton("Ellipse"));
-         panel1.add(new JButton("Ligne"));
-         panel1.add(new JButton("Rectangle"));
-         panel1.add(new JButton("Triangle"));
+        carreBouton = new JButton("Carré");
+        cercleBouton = new JButton("Cercle");
+        ellipseBouton = new JButton("Ellipse");
+        ligneBouton = new JButton("Ligne");
+        rectangleBouton = new JButton("Rectangle");
+        triangleBouton = new JButton("Triangle");
+        suppressionBouton = new JButton("Suppression");
 
-         JPanel panel2 = new JPanel();
-         panel2.setPreferredSize(new Dimension(200,100));
-         panel2.setBackground(Color.lightGray);
-         panel2.setLayout(new GridLayout(15,1));
+        panel1.add(carreBouton);
+        panel1.add(cercleBouton);
+        panel1.add(ellipseBouton);
+        panel1.add(ligneBouton);
+        panel1.add(rectangleBouton);
+        panel1.add(triangleBouton);
+        panel1.add(suppressionBouton);
 
-         JRadioButton bordureSeulement = new JRadioButton("Contour seulement");
-         bordureSeulement.setBackground(Color.lightGray);
-         JRadioButton interieurSeulement = new JRadioButton("Intérieur seulement");
-         interieurSeulement.setBackground(Color.lightGray);
-         JRadioButton interieurBordure = new JRadioButton("Intérieur et contour");
-         interieurBordure.setBackground(Color.lightGray);
-         ButtonGroup bg = new ButtonGroup();
-         bg.add(bordureSeulement);
-         bg.add(interieurSeulement);
-         bg.add(interieurBordure);
+        panel2 = new JPanel();
+        panel2.setPreferredSize(new Dimension(200, 100));
+        panel2.setBackground(Color.lightGray);
+        BoxLayout boxLayout = new BoxLayout(panel2, BoxLayout.Y_AXIS);
+        panel2.setLayout(boxLayout);
 
-         panel2.add(bordureSeulement);
-         panel2.add(interieurSeulement);
-         panel2.add(interieurBordure);
+        bordureSeulement = new JRadioButton("Bordure seulement");
+        bordureSeulement.setBackground(Color.lightGray);
+        interieurSeulement = new JRadioButton("Intérieur seulement");
+        interieurSeulement.setBackground(Color.lightGray);
+        interieurBordure = new JRadioButton("Intérieur et bordure");
+        interieurBordure.setBackground(Color.lightGray);
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(bordureSeulement);
+        bg.add(interieurSeulement);
+        bg.add(interieurBordure);
 
-         couleurBordure = new JButton("Couleur bordure");
-         couleurBordure.addActionListener(e -> JColorChooser.showDialog(null, "Choisissez une couleur", Color.BLACK));
-         couleurInterieur = new JButton("Couleur intérieur");
-         couleurInterieur.addActionListener(e -> JColorChooser.showDialog(null, "Choisissez une couleur", Color.BLACK));
+        panel2.add(bordureSeulement);
+        panel2.add(interieurSeulement);
+        panel2.add(interieurBordure);
 
-         panel2.add(couleurBordure);
-         panel2.add(couleurInterieur);
+        bordureSeulement.setSelected(true);
 
-         JPanel panelx1 = new JPanel();
-         panelx1.setPreferredSize(new Dimension(200,100));
-         panelx1.setBackground(Color.lightGray);
-         panelx1.setLayout(new FlowLayout());
+        couleurBordureBouton = new JButton("Couleur bordure");
+        couleurBordureBouton.addActionListener(e -> {
+            couleurBordure = JColorChooser.showDialog(null, "Choisissez une couleur", Color.BLACK);
+        });
+        couleurInterieurBouton = new JButton("Couleur intérieur");
+        couleurInterieurBouton.addActionListener(e -> {
+            couleurInterieur = JColorChooser.showDialog(null, "Choisissez une couleur", Color.BLACK);
+        });
+        panel2.add(couleurBordureBouton);
+        panel2.add(couleurInterieurBouton);
 
-         JLabel labelx1 = new JLabel("X1:");
-         JTextField textFieldx1 = new JTextField();
-         textFieldx1.setPreferredSize(new Dimension(160, 35));
-         panelx1.add(labelx1);
-         panelx1.add(textFieldx1);
-         panel2.add(panelx1);
+        panelX1 = new JPanel();
+        panelX1.setPreferredSize(new Dimension(200, 100));
+        panelX1.setBackground(Color.lightGray);
+        panelX1.setLayout(new FlowLayout());
 
-         JPanel panely1 = new JPanel();
-         panely1.setPreferredSize(new Dimension(200,100));
-         panely1.setBackground(Color.lightGray);
-         panely1.setLayout(new FlowLayout());
+        JLabel labelX1 = new JLabel("X1:");
+        textFieldX1 = new JTextField(10);
+        textFieldX1.setMaximumSize(textFieldX1.getPreferredSize());
+        panelX1.add(labelX1);
+        panelX1.add(textFieldX1);
+        panel2.add(panelX1);
 
-         JLabel labely1 = new JLabel("Y1:");
-         JTextField textFieldy1 = new JTextField();
-         textFieldy1.setPreferredSize(new Dimension(160, 35));
-         panely1.add(labely1);
-         panely1.add(textFieldy1);
-         panel2.add(panely1);
+        panelY1 = new JPanel();
+        panelY1.setPreferredSize(new Dimension(200, 100));
+        panelY1.setBackground(Color.lightGray);
+        panelY1.setLayout(new FlowLayout());
 
-         JPanel panelx2 = new JPanel();
-         panelx2.setPreferredSize(new Dimension(200,100));
-         panelx2.setBackground(Color.lightGray);
-         panelx2.setLayout(new FlowLayout());
+        JLabel labelY1 = new JLabel("Y1:");
+        textFieldY1 = new JTextField(10);
+        textFieldY1.setMaximumSize(textFieldY1.getPreferredSize());
+        panelY1.add(labelY1);
+        panelY1.add(textFieldY1);
+        panel2.add(panelY1);
 
-         JLabel labelx2 = new JLabel("X2:");
-         JTextField textFieldx2 = new JTextField();
-         textFieldx2.setPreferredSize(new Dimension(160, 35));
-         panelx2.add(labelx2);
-         panelx2.add(textFieldx2);
-         panel2.add(panelx2);
+        panelX2 = new JPanel();
+        panelX2.setPreferredSize(new Dimension(200, 100));
+        panelX2.setBackground(Color.lightGray);
+        panelX2.setLayout(new FlowLayout());
 
-         JPanel panely2 = new JPanel();
-         panely2.setPreferredSize(new Dimension(200,100));
-         panely2.setBackground(Color.lightGray);
-         panely2.setLayout(new FlowLayout());
+        JLabel labelX2 = new JLabel("X2:");
+        textFieldX2 = new JTextField(10);
+        textFieldX2.setMaximumSize(textFieldX2.getPreferredSize());
+        panelX2.add(labelX2);
+        panelX2.add(textFieldX2);
+        panel2.add(panelX2);
 
-         JLabel labely2 = new JLabel("Y2:");
-         JTextField textFieldy2 = new JTextField();
-         textFieldy2.setPreferredSize(new Dimension(160, 35));
-         panely2.add(labely2);
-         panely2.add(textFieldy2);
-         panel2.add(panely2);
+        panelY2 = new JPanel();
+        panelY2.setPreferredSize(new Dimension(200, 100));
+        panelY2.setBackground(Color.lightGray);
+        panelY2.setLayout(new FlowLayout());
 
-         JPanel panelx3 = new JPanel();
-         panelx3.setPreferredSize(new Dimension(200,100));
-         panelx3.setBackground(Color.lightGray);
-         panelx3.setLayout(new FlowLayout());
+        JLabel labelY2 = new JLabel("Y2:");
+        textFieldY2 = new JTextField(10);
+        textFieldY2.setMaximumSize(textFieldY2.getPreferredSize());
+        panelY2.add(labelY2);
+        panelY2.add(textFieldY2);
+        panel2.add(panelY2);
 
-         JLabel labelx3 = new JLabel("X3:");
-         JTextField textFieldx3 = new JTextField();
-         textFieldx3.setPreferredSize(new Dimension(160, 35));
-         panelx3.add(labelx3);
-         panelx3.add(textFieldx3);
-         panel2.add(panelx3);
+        panelX3 = new JPanel();
+        panelX3.setPreferredSize(new Dimension(200, 100));
+        panelX3.setBackground(Color.lightGray);
+        panelX3.setLayout(new FlowLayout());
 
-         JPanel panely3 = new JPanel();
-         panely3.setPreferredSize(new Dimension(200,100));
-         panely3.setBackground(Color.lightGray);
-         panely3.setLayout(new FlowLayout());
+        JLabel labelX3 = new JLabel("X3:");
+        textFieldX3 = new JTextField(10);
+        textFieldX3.setMaximumSize(textFieldX3.getPreferredSize());
+        panelX3.add(labelX3);
+        panelX3.add(textFieldX3);
+        panel2.add(panelX3);
 
-         JLabel labely3 = new JLabel("Y3:");
-         JTextField textFieldy3 = new JTextField();
-         textFieldy3.setPreferredSize(new Dimension(160, 35));
-         panely3.add(labely3);
-         panely3.add(textFieldy3);
-         panel2.add(panely3);
+        panelY3 = new JPanel();
+        panelY3.setPreferredSize(new Dimension(200, 100));
+        panelY3.setBackground(Color.lightGray);
+        panelY3.setLayout(new FlowLayout());
 
-         JPanel panellargeur = new JPanel();
-         panellargeur.setPreferredSize(new Dimension(200,100));
-         panellargeur.setBackground(Color.lightGray);
-         panellargeur.setLayout(new FlowLayout());
+        JLabel labelY3 = new JLabel("Y3:");
+        textFieldY3 = new JTextField(10);
+        textFieldY3.setMaximumSize(textFieldY3.getPreferredSize());
+        panelY3.add(labelY3);
+        panelY3.add(textFieldY3);
+        panel2.add(panelY3);
 
-         JLabel labellargeur = new JLabel("Largeur:");
-         JTextField textFieldlargeur = new JTextField();
-         textFieldlargeur.setPreferredSize(new Dimension(140, 35));
-         panellargeur.add(labellargeur);
-         panellargeur.add(textFieldlargeur);
-         panel2.add(panellargeur);
+        panelLargeur = new JPanel();
+        panelLargeur.setPreferredSize(new Dimension(200, 100));
+        panelLargeur.setBackground(Color.lightGray);
+        panelLargeur.setLayout(new FlowLayout());
 
-         JPanel panelhauteur = new JPanel();
-         panelhauteur.setPreferredSize(new Dimension(200,100));
-         panelhauteur.setBackground(Color.lightGray);
-         panelhauteur.setLayout(new FlowLayout());
+        JLabel labelLargeur = new JLabel("Largeur:");
+        textFieldLargeur = new JTextField(10);
+        textFieldLargeur.setMaximumSize(textFieldLargeur.getPreferredSize());
+        panelLargeur.add(labelLargeur);
+        panelLargeur.add(textFieldLargeur);
+        panel2.add(panelLargeur);
 
-         JLabel labelhauteur = new JLabel("Hauteur:");
-         JTextField textFieldhauteur= new JTextField();
-         textFieldhauteur.setPreferredSize(new Dimension(140, 35));
-         panelhauteur.add(labelhauteur);
-         panelhauteur.add(textFieldhauteur);
-         panel2.add(panelhauteur);
+        panelHauteur = new JPanel();
+        panelHauteur.setPreferredSize(new Dimension(200, 100));
+        panelHauteur.setBackground(Color.lightGray);
+        panelHauteur.setLayout(new FlowLayout());
 
-         JPanel panelrayon = new JPanel();
-         panelrayon.setPreferredSize(new Dimension(200,100));
-         panelrayon.setBackground(Color.lightGray);
-         panelrayon.setLayout(new FlowLayout());
+        JLabel labelHauteur = new JLabel("Hauteur:");
+        textFieldHauteur = new JTextField(10);
+        textFieldHauteur.setMaximumSize(textFieldHauteur.getPreferredSize());
+        panelHauteur.add(labelHauteur);
+        panelHauteur.add(textFieldHauteur);
+        panel2.add(panelHauteur);
 
-         JLabel labelrayon = new JLabel("Rayon:");
-         JTextField textFieldrayon = new JTextField();
-         textFieldrayon.setPreferredSize(new Dimension(145, 35));
-         panelrayon.add(labelrayon);
-         panelrayon.add(textFieldrayon);
-         panel2.add(panelrayon);
+        panelRayon = new JPanel();
+        panelRayon.setPreferredSize(new Dimension(200, 100));
+        panelRayon.setBackground(Color.lightGray);
+        panelRayon.setLayout(new FlowLayout());
 
-         JButton ok = new JButton("OK");
-         panel2.add(ok);
+        JLabel labelRayon = new JLabel("Rayon:");
+        textFieldRayon = new JTextField(10);
+        textFieldRayon.setMaximumSize(textFieldRayon.getPreferredSize());
+        panelRayon.add(labelRayon);
+        panelRayon.add(textFieldRayon);
+        panel2.add(panelRayon);
 
-         frame.add(panel1,BorderLayout.NORTH);
-         frame.add(panel2,BorderLayout.EAST);
-         frame.setVisible(true);
-     }
+        comboBox = new JComboBox();
+
+        panel2.add(comboBox);
+
+        JPanel panelSupression = new JPanel();
+        panelSupression.setBackground(Color.lightGray);
+        supprimerBouton = new JButton("Supprimer");
+        panelSupression.add(supprimerBouton);
+        panel2.add(panelSupression);
+
+        JPanel panelOk = new JPanel();
+        panelOk.setBackground(Color.lightGray);
+        okButton = new JButton("OK");
+        panelOk.add(okButton);
+        panel2.add(panelOk);
+
+        canvas = new VueCanvas();
+        canvas.setBorder(BorderFactory.createBevelBorder(0));
+
+        panel2.setVisible(false);
+
+        Box.Filler glue = (Box.Filler) Box.createVerticalGlue();
+        glue.changeShape(glue.getMinimumSize(),
+                new Dimension(0, Short.MAX_VALUE),
+                glue.getMaximumSize());
+        panel2.add(glue);
+
+        frame.add(panel1, BorderLayout.NORTH);
+        frame.add(panel2, BorderLayout.EAST);
+        frame.add(canvas);
+        frame.setVisible(true);
+    }
+
+    public VueCanvas getCanvas() {
+        return canvas;
+    }
+
+    public int getX1() {
+        return !textFieldX1.getText().equals("") ? Integer.parseInt(textFieldX1.getText()) : 0;
+    }
+
+    public int getY1() {
+        return !textFieldY1.getText().equals("") ? Integer.parseInt(textFieldY1.getText()) : 0;
+    }
+
+    public int getX2() {
+        return !textFieldX2.getText().equals("") ? Integer.parseInt(textFieldX2.getText()) : 0;
+    }
+
+    public int getY2() {
+        return !textFieldY2.getText().equals("") ? Integer.parseInt(textFieldY2.getText()) : 0;
+    }
+
+    public int getX3() {
+        return !textFieldX3.getText().equals("") ? Integer.parseInt(textFieldX3.getText()) : 0;
+    }
+
+    public int getY3() {
+        return !textFieldY3.getText().equals("") ? Integer.parseInt(textFieldY3.getText()) : 0;
+    }
+
+    public int getLargeur() {
+        return !textFieldLargeur.getText().equals("") ? Integer.parseInt(textFieldLargeur.getText()) : 0;
+    }
+
+    public int getHauteur() {
+        return !textFieldHauteur.getText().equals("") ? Integer.parseInt(textFieldHauteur.getText()) : 0;
+    }
+
+    public int getRayon() {
+        return !textFieldRayon.getText().equals("") ? Integer.parseInt(textFieldRayon.getText()) : 0;
+    }
+
+    public BordureEnum getBordureEnum() {
+        BordureEnum bordureEnum = BordureEnum.BORDURE;
+        if (interieurSeulement.isSelected()) {
+            bordureEnum = BordureEnum.INTERIEUR;
+        } else if (interieurBordure.isSelected()) {
+            bordureEnum = BordureEnum.BORDURE_INTERIEUR;
+        }
+        return bordureEnum;
+    }
+
+    public Color getCouleurBordure() {
+        return couleurBordure;
+    }
+
+    public Color getCouleurInterieur() {
+        return couleurInterieur;
+    }
+
+
+    public void messageErreur(String message) {
+        JOptionPane.showMessageDialog(frame, message);
+    }
+
+    public void addFormeEcouteur(ActionListener formeEcouteur, ActionListener selectionnerFormeEcouteur, ActionListener suppressionEcouteur, ActionListener supprimerEcouteur) {
+        okButton.addActionListener(formeEcouteur);
+        carreBouton.addActionListener(selectionnerFormeEcouteur);
+        cercleBouton.addActionListener(selectionnerFormeEcouteur);
+        ellipseBouton.addActionListener(selectionnerFormeEcouteur);
+        ligneBouton.addActionListener(selectionnerFormeEcouteur);
+        rectangleBouton.addActionListener(selectionnerFormeEcouteur);
+        triangleBouton.addActionListener(selectionnerFormeEcouteur);
+        suppressionBouton.addActionListener(suppressionEcouteur);
+        supprimerBouton.addActionListener(supprimerEcouteur);
+    }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==couleurBordure){
-            JColorChooser colorChooser = new JColorChooser();
-
-            Color color = JColorChooser.showDialog(null, "Choisie une couleur", Color.BLACK);
-        } else if (e.getSource()==couleurInterieur){
-            JColorChooser colorChooser = new JColorChooser();
-
-            Color color = JColorChooser.showDialog(null, "Choisie une couleur", Color.BLACK);
+    public void actualisation(Observable observable) {
+        FormeControleur formeControleur = (FormeControleur) observable;
+        FormeEnum formeEnum = formeControleur.getFormeChoisie();
+        if (formeControleur.isSuppression()) {
+            panel2.setVisible(true);
+            bordureSeulement.setVisible(false);
+            interieurSeulement.setVisible(false);
+            interieurBordure.setVisible(false);
+            couleurBordureBouton.setVisible(false);
+            couleurInterieurBouton.setVisible(false);
+            panelX1.setVisible(false);
+            panelY1.setVisible(false);
+            panelX2.setVisible(false);
+            panelY2.setVisible(false);
+            panelX3.setVisible(false);
+            panelY3.setVisible(false);
+            panelLargeur.setVisible(false);
+            panelHauteur.setVisible(false);
+            panelRayon.setVisible(false);
+            okButton.setVisible(false);
+            comboBox.setVisible(true);
+            supprimerBouton.setVisible(true);
+        } else {
+            switch (formeEnum) {
+                case CARRE -> {
+                    panel2.setVisible(true);
+                    bordureSeulement.setVisible(true);
+                    interieurSeulement.setVisible(true);
+                    interieurBordure.setVisible(true);
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(true);
+                    panelX1.setVisible(true);
+                    panelY1.setVisible(true);
+                    panelX2.setVisible(false);
+                    panelY2.setVisible(false);
+                    panelX3.setVisible(false);
+                    panelY3.setVisible(false);
+                    panelLargeur.setVisible(true);
+                    panelHauteur.setVisible(false);
+                    panelRayon.setVisible(false);
+                    okButton.setVisible(true);
+                    comboBox.setVisible(false);
+                    supprimerBouton.setVisible(false);
+                }
+                case CERCLE -> {
+                    panel2.setVisible(true);
+                    bordureSeulement.setVisible(true);
+                    interieurSeulement.setVisible(true);
+                    interieurBordure.setVisible(true);
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(true);
+                    panelX1.setVisible(true);
+                    panelY1.setVisible(true);
+                    panelX2.setVisible(false);
+                    panelY2.setVisible(false);
+                    panelX3.setVisible(false);
+                    panelY3.setVisible(false);
+                    panelLargeur.setVisible(false);
+                    panelHauteur.setVisible(false);
+                    panelRayon.setVisible(true);
+                    okButton.setVisible(true);
+                    comboBox.setVisible(false);
+                    supprimerBouton.setVisible(false);
+                }
+                case ELLIPSE, RECTANGLE -> {
+                    panel2.setVisible(true);
+                    bordureSeulement.setVisible(true);
+                    interieurSeulement.setVisible(true);
+                    interieurBordure.setVisible(true);
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(true);
+                    panelX1.setVisible(true);
+                    panelY1.setVisible(true);
+                    panelX2.setVisible(false);
+                    panelY2.setVisible(false);
+                    panelX3.setVisible(false);
+                    panelY3.setVisible(false);
+                    panelLargeur.setVisible(true);
+                    panelHauteur.setVisible(true);
+                    panelRayon.setVisible(false);
+                    okButton.setVisible(true);
+                    comboBox.setVisible(false);
+                    supprimerBouton.setVisible(false);
+                }
+                case LIGNE -> {
+                    panel2.setVisible(true);
+                    bordureSeulement.setVisible(false);
+                    interieurSeulement.setVisible(false);
+                    interieurBordure.setVisible(false);
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(false);
+                    panelX1.setVisible(true);
+                    panelY1.setVisible(true);
+                    panelX2.setVisible(true);
+                    panelY2.setVisible(true);
+                    panelX3.setVisible(false);
+                    panelY3.setVisible(false);
+                    panelLargeur.setVisible(false);
+                    panelHauteur.setVisible(false);
+                    panelRayon.setVisible(false);
+                    okButton.setVisible(true);
+                    comboBox.setVisible(false);
+                    supprimerBouton.setVisible(false);
+                }
+                case TRIANGLE -> {
+                    panel2.setVisible(true);
+                    bordureSeulement.setVisible(true);
+                    interieurSeulement.setVisible(true);
+                    interieurBordure.setVisible(true);
+                    couleurBordureBouton.setVisible(true);
+                    couleurInterieurBouton.setVisible(true);
+                    panelX1.setVisible(true);
+                    panelY1.setVisible(true);
+                    panelX2.setVisible(true);
+                    panelY2.setVisible(true);
+                    panelX3.setVisible(true);
+                    panelY3.setVisible(true);
+                    panelLargeur.setVisible(false);
+                    panelHauteur.setVisible(false);
+                    panelRayon.setVisible(false);
+                    okButton.setVisible(true);
+                    comboBox.setVisible(false);
+                    supprimerBouton.setVisible(false);
+                }
+            }
         }
     }
 }
