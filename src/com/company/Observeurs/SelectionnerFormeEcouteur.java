@@ -1,6 +1,7 @@
 package com.company.Observeurs;
 
 import com.company.Controleurs.FormeControleur;
+import com.company.Enums.BordureEnum;
 import com.company.Enums.FormeEnum;
 import com.company.Modeles.*;
 import com.company.Vues.VuePrincipale;
@@ -20,6 +21,7 @@ public class SelectionnerFormeEcouteur implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton bouton = (JButton)e.getSource();
         String nom = bouton.getText();
+        controleur.setCreation(true);
         switch (nom) {
             case "Carré" -> controleur.setFormeChoisie(FormeEnum.CARRE);
             case "Cercle" -> controleur.setFormeChoisie(FormeEnum.CERCLE);

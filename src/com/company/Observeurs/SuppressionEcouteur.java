@@ -13,6 +13,7 @@ public class SuppressionEcouteur implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        controleur.setCreation(false);
         controleur.setSuppression(true);
     }
 }
