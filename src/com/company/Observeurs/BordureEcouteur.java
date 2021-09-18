@@ -2,8 +2,6 @@ package com.company.Observeurs;
 
 import com.company.Controleurs.FormeControleur;
 import com.company.Enums.BordureEnum;
-import com.company.Enums.FormeEnum;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
