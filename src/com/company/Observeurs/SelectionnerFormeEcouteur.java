@@ -1,25 +1,42 @@
 package com.company.Observeurs;
 
 import com.company.Controleurs.FormeControleur;
-import com.company.Enums.BordureEnum;
 import com.company.Enums.FormeEnum;
-import com.company.Modeles.*;
-import com.company.Vues.VuePrincipale;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Classe qui permet de gérer le clique du bouton de la forme choisie
+ *
+ * @version 1.0
+ * @autor Christopher Caron
+ * @since 1.0
+ */
 public class SelectionnerFormeEcouteur implements ActionListener {
+    /**
+     * Le contrôleur de forme
+     */
     private FormeControleur controleur;
 
+    /**
+     * Le constructeur de SelectionnerFormeEcouteur
+     *
+     * @param formeControleur Le contrôleur de forme
+     */
     public SelectionnerFormeEcouteur(FormeControleur formeControleur) {
         controleur = formeControleur;
     }
 
+    /**
+     * Permet de gérer l'action du clique
+     *
+     * @param e l'action effectuer
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton bouton = (JButton)e.getSource();
+        JButton bouton = (JButton) e.getSource();
         String nom = bouton.getText();
         controleur.setCreation(true);
         switch (nom) {
