@@ -1,16 +1,17 @@
 package com.company.Modeles;
 
 import com.company.Enums.BordureEnum;
+
 import java.awt.*;
+
 /**
  * Classe qui permet de créer un ellipse
  *
- * @autor Christopher
  * @version 1.0
+ * @autor Christopher Caron
  * @since 1.0
  */
-public class Ellipse extends Forme{
-
+public class Ellipse extends Forme {
     /**
      * La largeur de l'ellipse
      */
@@ -23,16 +24,16 @@ public class Ellipse extends Forme{
     /**
      * Constructeur de l'ellipse
      *
-     * @param x1 La position de l'ellipse sur l'axe des x
-     * @param y1 La position de l'ellipse sur l'axe des y
-     * @param largeur La largeur de l'ellipse
-     * @param hauteur La hauteur de l'ellipse
-     * @param couleurBordure La couleur de la bordure de l'ellipse
+     * @param x1               La position de l'ellipse sur l'axe des x
+     * @param y1               La position de l'ellipse sur l'axe des y
+     * @param largeur          La largeur de l'ellipse
+     * @param hauteur          La hauteur de l'ellipse
+     * @param couleurBordure   La couleur de la bordure de l'ellipse
      * @param couleurInterieur La couleur de l'intéreur de l'ellipse
-     * @param bordureEnum Permet de savoir si l'ellipse doit avoir seulement une bordure, une bordure et l'intérieur ou seulement l'intérieur
+     * @param bordureEnum      Permet de savoir si l'ellipse doit avoir seulement une bordure, une bordure et l'intérieur ou seulement l'intérieur
      */
-    public Ellipse(int x1, int y1, int largeur, int hauteur, Color couleurBordure, Color couleurInterieur, BordureEnum bordureEnum){
-        super(couleurBordure, couleurInterieur, x1, y1,bordureEnum);
+    public Ellipse(int x1, int y1, int largeur, int hauteur, Color couleurBordure, Color couleurInterieur, BordureEnum bordureEnum) {
+        super(couleurBordure, couleurInterieur, x1, y1, bordureEnum);
         this.largeur = largeur;
         this.hauteur = hauteur;
     }

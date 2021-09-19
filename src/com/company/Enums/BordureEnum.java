@@ -1,9 +1,10 @@
 package com.company.Enums;
+
 /**
  * Enum des bordures
  *
- * @autor Christopher
  * @version 1.0
+ * @autor Christopher Caron
  * @since 1.0
  */
 public enum BordureEnum {

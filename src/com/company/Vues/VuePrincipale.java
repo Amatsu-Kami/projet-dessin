@@ -10,47 +10,170 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Classe qui permet de gérer la vue principale
+ *
+ * @version 1.0
+ * @autor Christopher Caron
+ * @since 1.0
+ */
 public class VuePrincipale implements Observeur {
-
+    /**
+     * Le bouton pour la couleur de la bordure
+     */
     JButton couleurBordureBouton;
+    /**
+     * Le bouton pour la couleur de l'intérieur
+     */
     JButton couleurInterieurBouton;
+    /**
+     * Le champs de texte pour le premier point sur l'axe des x
+     */
     JTextField textFieldX1;
+    /**
+     * Le champs de texte pour le premier point sur l'axe des y
+     */
     JTextField textFieldY1;
+    /**
+     * Le champs de texte pour le deuxième point sur l'axe des x
+     */
     JTextField textFieldX2;
+    /**
+     * Le champs de texte pour le deuxième point sur l'axe des y
+     */
     JTextField textFieldY2;
+    /**
+     * Le champs de texte pour le troisième point sur l'axe des x
+     */
     JTextField textFieldX3;
+    /**
+     * Le champs de texte pour le troisième point sur l'axe des y
+     */
     JTextField textFieldY3;
+    /**
+     * Le champs de texte pour la largeur
+     */
     JTextField textFieldLargeur;
+    /**
+     * Le champs de texte pour la hauteur
+     */
     JTextField textFieldHauteur;
+    /**
+     * Le champs de texte pour le rayon
+     */
     JTextField textFieldRayon;
-    JButton okButton;
+    /**
+     * Le bouton pour créer la forme
+     */
+    JButton boutonCreer;
+    /**
+     * La couleur de la bordure
+     */
     Color couleurBordure;
+    /**
+     * La couleur de l'intérieur
+     */
     Color couleurInterieur;
+    /**
+     * Le cadre de l'application
+     */
     JFrame frame;
+    /**
+     * Le bouton pour créer un carré
+     */
     JButton carreBouton;
+    /**
+     * Le bouton pour créer un cercle
+     */
     JButton cercleBouton;
+    /**
+     * Le bouton pour créer un ellipse
+     */
     JButton ellipseBouton;
+    /**
+     * Le bouton pour créer une ligne
+     */
     JButton ligneBouton;
+    /**
+     * Le bouton pour créer un rectangle
+     */
     JButton rectangleBouton;
+    /**
+     * Le bouton pour créer un triangle
+     */
     JButton triangleBouton;
+    /**
+     * Le bouton pour selectionner la bordure seulement
+     */
     JRadioButton bordureSeulement;
+    /**
+     * Le bouton pour selectionner l'intérieur seulement
+     */
     JRadioButton interieurSeulement;
+    /**
+     * Le bouton pour selectionner l'intérieur et la bordure
+     */
     JRadioButton interieurBordure;
+    /**
+     * Le panneau pour le premier point sur l'axe des x
+     */
     JPanel panelX1;
+    /**
+     * Le panneau pour le premier point sur l'axe des y
+     */
     JPanel panelY1;
+    /**
+     * Le panneau pour le deuxième point sur l'axe des x
+     */
     JPanel panelX2;
+    /**
+     * Le panneau pour le deuxième point sur l'axe des y
+     */
     JPanel panelY2;
+    /**
+     * Le panneau pour le troisième point sur l'axe des x
+     */
     JPanel panelX3;
+    /**
+     * Le panneau pour le troisième point sur l'axe des y
+     */
     JPanel panelY3;
+    /**
+     * Le panneau pour la largeur
+     */
     JPanel panelLargeur;
+    /**
+     * Le panneau pour la hauteur
+     */
     JPanel panelHauteur;
+    /**
+     * Le panneau pour le rayon
+     */
     JPanel panelRayon;
-    JPanel panel2;
+    /**
+     * Le panneau qui contient tous les autres panneaux
+     */
+    JPanel panelDroit;
+    /**
+     * Le panneau qui va contenit les dessins de forme
+     */
     VueCanvas canvas;
+    /**
+     * Le bouton pour la suppression de forme
+     */
     JButton suppressionBouton;
+    /**
+     * Le bouton pour supprimer une forme
+     */
     JButton supprimerBouton;
+    /**
+     * Le combo box qui va contenir tous les formes qui sont sur le canvas
+     */
     JComboBox comboBox;
 
+    /**
+     * Permet d'afficher le cadre avec tous les panneaux
+     */
     public void afficher() {
         frame = new JFrame();
         frame.setTitle("Fait moi un dessin");
@@ -80,11 +203,11 @@ public class VuePrincipale implements Observeur {
         panel1.add(triangleBouton);
         panel1.add(suppressionBouton);
 
-        panel2 = new JPanel();
-        panel2.setPreferredSize(new Dimension(200, 100));
-        panel2.setBackground(Color.lightGray);
-        BoxLayout boxLayout = new BoxLayout(panel2, BoxLayout.Y_AXIS);
-        panel2.setLayout(boxLayout);
+        panelDroit = new JPanel();
+        panelDroit.setPreferredSize(new Dimension(200, 100));
+        panelDroit.setBackground(Color.lightGray);
+        BoxLayout boxLayout = new BoxLayout(panelDroit, BoxLayout.Y_AXIS);
+        panelDroit.setLayout(boxLayout);
 
         bordureSeulement = new JRadioButton("Bordure seulement");
         bordureSeulement.setBackground(Color.lightGray);
@@ -97,9 +220,9 @@ public class VuePrincipale implements Observeur {
         bg.add(interieurSeulement);
         bg.add(interieurBordure);
 
-        panel2.add(bordureSeulement);
-        panel2.add(interieurSeulement);
-        panel2.add(interieurBordure);
+        panelDroit.add(bordureSeulement);
+        panelDroit.add(interieurSeulement);
+        panelDroit.add(interieurBordure);
 
         bordureSeulement.setSelected(true);
 
@@ -111,8 +234,8 @@ public class VuePrincipale implements Observeur {
         couleurInterieurBouton.addActionListener(e -> {
             couleurInterieur = JColorChooser.showDialog(null, "Choisissez une couleur", Color.BLACK);
         });
-        panel2.add(couleurBordureBouton);
-        panel2.add(couleurInterieurBouton);
+        panelDroit.add(couleurBordureBouton);
+        panelDroit.add(couleurInterieurBouton);
 
         panelX1 = new JPanel();
         panelX1.setPreferredSize(new Dimension(200, 100));
@@ -124,7 +247,7 @@ public class VuePrincipale implements Observeur {
         textFieldX1.setMaximumSize(textFieldX1.getPreferredSize());
         panelX1.add(labelX1);
         panelX1.add(textFieldX1);
-        panel2.add(panelX1);
+        panelDroit.add(panelX1);
 
         panelY1 = new JPanel();
         panelY1.setPreferredSize(new Dimension(200, 100));
@@ -136,7 +259,7 @@ public class VuePrincipale implements Observeur {
         textFieldY1.setMaximumSize(textFieldY1.getPreferredSize());
         panelY1.add(labelY1);
         panelY1.add(textFieldY1);
-        panel2.add(panelY1);
+        panelDroit.add(panelY1);
 
         panelX2 = new JPanel();
         panelX2.setPreferredSize(new Dimension(200, 100));
@@ -148,7 +271,7 @@ public class VuePrincipale implements Observeur {
         textFieldX2.setMaximumSize(textFieldX2.getPreferredSize());
         panelX2.add(labelX2);
         panelX2.add(textFieldX2);
-        panel2.add(panelX2);
+        panelDroit.add(panelX2);
 
         panelY2 = new JPanel();
         panelY2.setPreferredSize(new Dimension(200, 100));
@@ -160,7 +283,7 @@ public class VuePrincipale implements Observeur {
         textFieldY2.setMaximumSize(textFieldY2.getPreferredSize());
         panelY2.add(labelY2);
         panelY2.add(textFieldY2);
-        panel2.add(panelY2);
+        panelDroit.add(panelY2);
 
         panelX3 = new JPanel();
         panelX3.setPreferredSize(new Dimension(200, 100));
@@ -172,7 +295,7 @@ public class VuePrincipale implements Observeur {
         textFieldX3.setMaximumSize(textFieldX3.getPreferredSize());
         panelX3.add(labelX3);
         panelX3.add(textFieldX3);
-        panel2.add(panelX3);
+        panelDroit.add(panelX3);
 
         panelY3 = new JPanel();
         panelY3.setPreferredSize(new Dimension(200, 100));
@@ -184,7 +307,7 @@ public class VuePrincipale implements Observeur {
         textFieldY3.setMaximumSize(textFieldY3.getPreferredSize());
         panelY3.add(labelY3);
         panelY3.add(textFieldY3);
-        panel2.add(panelY3);
+        panelDroit.add(panelY3);
 
         panelLargeur = new JPanel();
         panelLargeur.setPreferredSize(new Dimension(200, 100));
@@ -196,7 +319,7 @@ public class VuePrincipale implements Observeur {
         textFieldLargeur.setMaximumSize(textFieldLargeur.getPreferredSize());
         panelLargeur.add(labelLargeur);
         panelLargeur.add(textFieldLargeur);
-        panel2.add(panelLargeur);
+        panelDroit.add(panelLargeur);
 
         panelHauteur = new JPanel();
         panelHauteur.setPreferredSize(new Dimension(200, 100));
@@ -208,7 +331,7 @@ public class VuePrincipale implements Observeur {
         textFieldHauteur.setMaximumSize(textFieldHauteur.getPreferredSize());
         panelHauteur.add(labelHauteur);
         panelHauteur.add(textFieldHauteur);
-        panel2.add(panelHauteur);
+        panelDroit.add(panelHauteur);
 
         panelRayon = new JPanel();
         panelRayon.setPreferredSize(new Dimension(200, 100));
@@ -220,81 +343,136 @@ public class VuePrincipale implements Observeur {
         textFieldRayon.setMaximumSize(textFieldRayon.getPreferredSize());
         panelRayon.add(labelRayon);
         panelRayon.add(textFieldRayon);
-        panel2.add(panelRayon);
+        panelDroit.add(panelRayon);
 
         comboBox = new JComboBox();
 
-        panel2.add(comboBox);
+        panelDroit.add(comboBox);
 
         JPanel panelSupression = new JPanel();
         panelSupression.setBackground(Color.lightGray);
         supprimerBouton = new JButton("Supprimer");
         panelSupression.add(supprimerBouton);
-        panel2.add(panelSupression);
+        panelDroit.add(panelSupression);
 
-        JPanel panelOk = new JPanel();
-        panelOk.setBackground(Color.lightGray);
-        okButton = new JButton("OK");
-        panelOk.add(okButton);
-        panel2.add(panelOk);
+        JPanel panelCreer = new JPanel();
+        panelCreer.setBackground(Color.lightGray);
+        boutonCreer = new JButton("OK");
+        panelCreer.add(boutonCreer);
+        panelDroit.add(panelCreer);
 
         canvas = new VueCanvas();
         canvas.setBorder(BorderFactory.createBevelBorder(0));
 
-        panel2.setVisible(false);
+        panelDroit.setVisible(false);
 
         Box.Filler glue = (Box.Filler) Box.createVerticalGlue();
         glue.changeShape(glue.getMinimumSize(),
                 new Dimension(0, Short.MAX_VALUE),
                 glue.getMaximumSize());
-        panel2.add(glue);
+        panelDroit.add(glue);
 
         frame.add(panel1, BorderLayout.NORTH);
-        frame.add(panel2, BorderLayout.EAST);
+        frame.add(panelDroit, BorderLayout.EAST);
         frame.add(canvas);
         frame.setVisible(true);
     }
 
+    /**
+     * Permet d'obtenir le canvas
+     *
+     * @return Le canvas
+     */
     public VueCanvas getCanvas() {
         return canvas;
     }
 
+    /**
+     * Permet d'obtenir le premier point de l'axe des x
+     *
+     * @return Le premier point de l'axe des x
+     */
     public int getX1() {
         return !textFieldX1.getText().equals("") ? Integer.parseInt(textFieldX1.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le premier point de l'axe des y
+     *
+     * @return Le premier point de l'axe des y
+     */
     public int getY1() {
         return !textFieldY1.getText().equals("") ? Integer.parseInt(textFieldY1.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le deuxième point de l'axe des x
+     *
+     * @return Le deuxième point de l'axe des x
+     */
     public int getX2() {
         return !textFieldX2.getText().equals("") ? Integer.parseInt(textFieldX2.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le deuxième point de l'axe des y
+     *
+     * @return Le deuxième point de l'axe des y
+     */
     public int getY2() {
         return !textFieldY2.getText().equals("") ? Integer.parseInt(textFieldY2.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le troisième point de l'axe des x
+     *
+     * @return Le troisième point de l'axe des x
+     */
     public int getX3() {
         return !textFieldX3.getText().equals("") ? Integer.parseInt(textFieldX3.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le troisième point de l'axe des y
+     *
+     * @return Le troisième point de l'axe des y
+     */
     public int getY3() {
         return !textFieldY3.getText().equals("") ? Integer.parseInt(textFieldY3.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir la largeur
+     *
+     * @return La largeur
+     */
     public int getLargeur() {
         return !textFieldLargeur.getText().equals("") ? Integer.parseInt(textFieldLargeur.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir la hauteur
+     *
+     * @return La hauteur
+     */
     public int getHauteur() {
         return !textFieldHauteur.getText().equals("") ? Integer.parseInt(textFieldHauteur.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le rayon
+     *
+     * @return Le rayon
+     */
     public int getRayon() {
         return !textFieldRayon.getText().equals("") ? Integer.parseInt(textFieldRayon.getText()) : 0;
     }
 
+    /**
+     * Permet d'obtenir le type de bordure
+     *
+     * @return Le type de bordure
+     */
     public BordureEnum getBordureEnum() {
         BordureEnum bordureEnum = BordureEnum.BORDURE;
         if (interieurSeulement.isSelected()) {
@@ -305,32 +483,71 @@ public class VuePrincipale implements Observeur {
         return bordureEnum;
     }
 
+    /**
+     * Permet d'obtenir la couleur de la bordure
+     *
+     * @return La couleur de la bordure
+     */
     public Color getCouleurBordure() {
         return couleurBordure;
     }
 
+    /**
+     * Permet d'obtenir la couleur de l'intérieur
+     *
+     * @return La couleur de l'intérieur
+     */
     public Color getCouleurInterieur() {
         return couleurInterieur;
     }
 
+    /**
+     * Permet d'ajouter une forme au combo box
+     *
+     * @param nom Le nom de la forme
+     */
     public void ajouterAuComboBox(String nom) {
         this.comboBox.addItem(nom);
     }
 
-    public void supprimerDuComboBox(int index){
+    /**
+     * Permet de supprimer une forme du combo box
+     *
+     * @param index L'index de la forme à supprimer
+     */
+    public void supprimerDuComboBox(int index) {
         this.comboBox.removeItemAt(index);
     }
 
+    /**
+     * Permet d'obtenir l'index d'une forme
+     *
+     * @return L'index de la forme
+     */
     public int getFormeIndex() {
         return comboBox.getSelectedIndex();
     }
 
+    /**
+     * Permet d'afficher un message d'erreur
+     *
+     * @param message Le message d'erreur
+     */
     public void messageErreur(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
 
+    /**
+     * Permet d'ajouter des écouteurs d'action
+     *
+     * @param formeEcouteur             L'écouteur d'action de forme
+     * @param selectionnerFormeEcouteur L'écouteur d'action de selectionnerForme
+     * @param suppressionEcouteur       L'écouteur d'action de suppression
+     * @param supprimerEcouteur         L'écouteur d'action de supprimer
+     * @param bordureEcouteur           L'écouteur d'action de bordure
+     */
     public void addFormeEcouteur(ActionListener formeEcouteur, ActionListener selectionnerFormeEcouteur, ActionListener suppressionEcouteur, ActionListener supprimerEcouteur, ActionListener bordureEcouteur) {
-        okButton.addActionListener(formeEcouteur);
+        boutonCreer.addActionListener(formeEcouteur);
         carreBouton.addActionListener(selectionnerFormeEcouteur);
         cercleBouton.addActionListener(selectionnerFormeEcouteur);
         ellipseBouton.addActionListener(selectionnerFormeEcouteur);
@@ -345,13 +562,18 @@ public class VuePrincipale implements Observeur {
 
     }
 
+    /**
+     * Permet d'actualiser l'observable
+     *
+     * @param observable L'observable à actualiser
+     */
     @Override
     public void actualisation(Observable observable) {
         FormeControleur formeControleur = (FormeControleur) observable;
         FormeEnum formeEnum = formeControleur.getFormeChoisie();
         BordureEnum bordureEnum = formeControleur.getBordureChoisie();
         if (formeControleur.isSuppression()) {
-            panel2.setVisible(true);
+            panelDroit.setVisible(true);
             bordureSeulement.setVisible(false);
             interieurSeulement.setVisible(false);
             interieurBordure.setVisible(false);
@@ -366,13 +588,13 @@ public class VuePrincipale implements Observeur {
             panelLargeur.setVisible(false);
             panelHauteur.setVisible(false);
             panelRayon.setVisible(false);
-            okButton.setVisible(false);
+            boutonCreer.setVisible(false);
             comboBox.setVisible(true);
             supprimerBouton.setVisible(true);
-        } else if (formeControleur.isCreation()){
+        } else if (formeControleur.isCreation()) {
             switch (formeEnum) {
                 case CARRE -> {
-                    panel2.setVisible(true);
+                    panelDroit.setVisible(true);
                     bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
@@ -388,12 +610,12 @@ public class VuePrincipale implements Observeur {
                     panelLargeur.setVisible(true);
                     panelHauteur.setVisible(false);
                     panelRayon.setVisible(false);
-                    okButton.setVisible(true);
+                    boutonCreer.setVisible(true);
                     comboBox.setVisible(false);
                     supprimerBouton.setVisible(false);
                 }
                 case CERCLE -> {
-                    panel2.setVisible(true);
+                    panelDroit.setVisible(true);
                     bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
@@ -409,12 +631,12 @@ public class VuePrincipale implements Observeur {
                     panelLargeur.setVisible(false);
                     panelHauteur.setVisible(false);
                     panelRayon.setVisible(true);
-                    okButton.setVisible(true);
+                    boutonCreer.setVisible(true);
                     comboBox.setVisible(false);
                     supprimerBouton.setVisible(false);
                 }
                 case ELLIPSE, RECTANGLE -> {
-                    panel2.setVisible(true);
+                    panelDroit.setVisible(true);
                     bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
@@ -430,12 +652,12 @@ public class VuePrincipale implements Observeur {
                     panelLargeur.setVisible(true);
                     panelHauteur.setVisible(true);
                     panelRayon.setVisible(false);
-                    okButton.setVisible(true);
+                    boutonCreer.setVisible(true);
                     comboBox.setVisible(false);
                     supprimerBouton.setVisible(false);
                 }
                 case LIGNE -> {
-                    panel2.setVisible(true);
+                    panelDroit.setVisible(true);
                     bordureSeulement.setVisible(false);
                     interieurSeulement.setVisible(false);
                     interieurBordure.setVisible(false);
@@ -450,12 +672,12 @@ public class VuePrincipale implements Observeur {
                     panelLargeur.setVisible(false);
                     panelHauteur.setVisible(false);
                     panelRayon.setVisible(false);
-                    okButton.setVisible(true);
+                    boutonCreer.setVisible(true);
                     comboBox.setVisible(false);
                     supprimerBouton.setVisible(false);
                 }
                 case TRIANGLE -> {
-                    panel2.setVisible(true);
+                    panelDroit.setVisible(true);
                     bordureSeulement.setSelected(true);
                     bordureSeulement.setVisible(true);
                     interieurSeulement.setVisible(true);
@@ -471,13 +693,13 @@ public class VuePrincipale implements Observeur {
                     panelLargeur.setVisible(false);
                     panelHauteur.setVisible(false);
                     panelRayon.setVisible(false);
-                    okButton.setVisible(true);
+                    boutonCreer.setVisible(true);
                     comboBox.setVisible(false);
                     supprimerBouton.setVisible(false);
                 }
             }
         } else {
-            switch (bordureEnum){
+            switch (bordureEnum) {
                 case BORDURE -> {
                     couleurBordureBouton.setVisible(true);
                     couleurInterieurBouton.setVisible(false);

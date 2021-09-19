@@ -7,16 +7,39 @@ import com.company.Vues.VuePrincipale;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Classe qui permet de gérer le clique du bouton pour créer une forme
+ *
+ * @version 1.0
+ * @autor Christopher Caron
+ * @since 1.0
+ */
 public class FormeEcouteur implements ActionListener {
-
+    /**
+     * La vue principale
+     */
     private VuePrincipale vue;
+    /**
+     * Le contrôleur de forme
+     */
     private FormeControleur controleur;
 
+    /**
+     * Le contructeur  de formeEcouteur
+     *
+     * @param vuePrincipale   La vue principale
+     * @param formeControleur Le contrôleur de forme
+     */
     public FormeEcouteur(VuePrincipale vuePrincipale, FormeControleur formeControleur) {
         vue = vuePrincipale;
         controleur = formeControleur;
     }
 
+    /**
+     * Permet de gérer l'action du clique
+     *
+     * @param e l'action effectuer
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         try {

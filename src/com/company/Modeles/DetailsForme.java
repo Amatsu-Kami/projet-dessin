@@ -1,16 +1,17 @@
 package com.company.Modeles;
 
 import com.company.Enums.BordureEnum;
+
 import java.awt.*;
+
 /**
  * Classe qui permet d'avoir les détails d'une forme
  *
- * @autor Christopher
  * @version 1.0
+ * @autor Christopher Caron
  * @since 1.0
  */
 public class DetailsForme {
-
     /**
      * La position du premier point sur l'axe des x
      */

@@ -5,12 +5,14 @@ import com.company.Enums.FormeEnum;
 import com.company.Modeles.*;
 import com.company.Observeurs.*;
 import com.company.Vues.VuePrincipale;
+
 import java.util.ArrayList;
+
 /**
  * Cette classe permet de faire les échanges entre les modèles et les vue
  *
- * @autor Christopher
  * @version 1.0
+ * @autor Christopher Caron
  * @since 1.0
  */
 public class FormeControleur extends Observable {
@@ -94,9 +96,9 @@ public class FormeControleur extends Observable {
     /**
      * Permet de supprimer une forme du canvas, de la liste de formes et du combo box
      */
-    public void supprimerForme(){
+    public void supprimerForme() {
         int index = this.vue.getFormeIndex();
-        if (index >= 0){
+        if (index >= 0) {
             Forme forme = this.formes.get(index);
             this.vue.getCanvas().supprimerForme(forme);
             this.vue.supprimerDuComboBox(index);
